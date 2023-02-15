@@ -1,0 +1,49 @@
+Sure, here's an explanation of how to implement the MFMessageComposeViewControllerDelegate protocol in Swift:
+
+Declare conformance to the protocol: In your view controller that will present the message composer, declare that it conforms to the MFMessageComposeViewControllerDelegate protocol by adding it to the list of protocols the view controller adopts. For example:
+
+swift
+Copy code
+class ViewController: UIViewController, MFMessageComposeViewControllerDelegate {
+    // ...
+}
+
+Implement the delegate method: The MFMessageComposeViewControllerDelegate protocol has one required method that you need to implement to handle the result of the message composition. The method is:
+swift
+Copy code
+func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult)
+This method is called when the user finishes composing the message and either sends it or cancels the composition. The controller parameter is the message composer view controller, and the result parameter is the result of the composition. The result is one of the following three options:
+
+.cancelled: The user cancelled the composition.
+.sent: The message was sent successfully.
+.failed: The message failed to send.
+Here's an example implementation of the delegate method that simply logs the result:
+
+swift
+Copy code
+func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+    switch result {
+    case .cancelled:
+        print("Message composition cancelled")
+    case .sent:
+        print("Message sent!")
+    case .failed:
+        print("Message send failed")
+    default:
+        break
+    }
+    controller.dismiss(animated: true, completion: nil)
+}
+Set the delegate: When you present the message composer view controller, set its delegate to the view controller that conforms to the MFMessageComposeViewControllerDelegate protocol. For example:
+
+swift
+Copy code
+let messageController = MFMessageComposeViewController()
+messageController.recipients = [recipient]
+messageController.body = message
+messageController.messageComposeDelegate = self // set the delegate
+present(messageController, animated: true, completion: nil)
+That's it! Now your view controller can handle the result of the message composition using the MFMessageComposeViewControllerDelegate protocol.
+
+
+
